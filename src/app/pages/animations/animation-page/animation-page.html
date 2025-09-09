@@ -1,0 +1,24 @@
+<div class="max-w-5xl mx-auto mt-10">
+  <h2 class="text-center">Fade In More</h2>
+  <div class="mt-7">
+    <app-fade-in-more />
+  </div>
+  <br />
+  <hr />
+  <br />
+
+  <h2 class="text-center">Fade In</h2>
+  <div class="mt-7">
+    <app-fade-in />
+  </div>
+  <br />
+  <hr />
+  <br />
+
+  <h2 class="text-center">Wobble</h2>
+  <div class="flex justify-center items-center gap-10 mt-7">
+    @for (wobble of wobbles; track $index) {
+    <app-wobble wobble [name]="wobble.name" [image]="wobble.image" />
+    }
+  </div>
+</div>
