@@ -3,7 +3,7 @@ import { AnimationPage } from "./animation-page/animation-page";
 
 export const ROUTES_ANIMATIONS: Routes = [
     {
-        path: '',
+        path: 'modal-1',
         component: AnimationPage,
     }
 ]

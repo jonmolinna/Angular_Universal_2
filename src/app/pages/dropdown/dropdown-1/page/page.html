@@ -1,0 +1,87 @@
+<article class="max-w-3xl mx-auto pt-10">
+  <h1 class="text-3xl font-bold text-gray-900">Dropdown Examples</h1>
+
+  <!-- Ejemplo 1: Dropdown básico -->
+  <section class="space-y-4">
+    <h2 class="text-xl font-semibold text-gray-800">Dropdown básico</h2>
+    <app-dropdown
+      [options]="options"
+      [title]="titleDropdown1()"
+      [showArrow]="true"
+      position="left"
+      [closeOnClickOutside]="true"
+      [closeOnSelect]="true"
+      (optionSelected)="handleSelectOptionDropdown1($event)"
+    />
+  </section>
+
+  <!-- EJEMPLO 2: Dropdown con iconos -->
+  <section class="space-y-4 mt-10">
+    <h2 class="text-xl font-semibold text-gray-800">2. Dropdown con Iconos</h2>
+    <app-dropdown
+      [options]="options2"
+      [title]="titleDropdown2()"
+      (optionSelected)="handleSelectOptionDropdown2($event)"
+    />
+  </section>
+
+  <!-- EJEMPLO 3: Dropdown personalizado -->
+  <section class="space-y-4 mt-10">
+    <h2 class="text-xl font-semibold text-gray-800">3. Dropdown Personalizado</h2>
+
+    <app-dropdown [title]="titleDropdown3()" [closeOnSelect]="true" position="left">
+      <!-- Header personalizado -->
+      <div class="px-4 py-3 border-b border-gray-100">
+        <div class="flex items-center space-x-3">
+          <div class="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center">👤</div>
+          <div>
+            <p class="text-sm font-medium text-gray-900">Juan Pérez</p>
+            <p class="text-xs text-gray-500">juan@email.com</p>
+          </div>
+        </div>
+      </div>
+      <!-- Opciones personalizadas -->
+      <button
+        class="flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+      >
+        <span class="mr-3">⚙️</span>
+        Configuración
+      </button>
+
+      <button
+        class="flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+      >
+        <span class="mr-3">📊</span>
+        Estadísticas
+      </button>
+
+      <div class="border-t border-gray-100 my-1"></div>
+
+      <button
+        class="flex w-full items-center px-4 py-2 text-sm text-red-700 hover:bg-red-50 transition-colors"
+      >
+        <span class="mr-3">🚪</span>
+        Cerrar sesión
+      </button>
+    </app-dropdown>
+  </section>
+
+  <!-- EJEMPLO 4: Múltiples dropdowns -->
+  <section class="space-y-4 mt-10">
+    <h2 class="text-xl font-semibold text-gray-800">4. Múltiples Dropdowns</h2>
+
+    <div class="flex space-x-4">
+      <app-dropdown 
+        [options]="filterOptions"
+        [title]="filterTitle()"
+        (optionSelected)="onFilterSelect($event)">
+      </app-dropdown>
+      
+      <app-dropdown 
+        [options]="sortOptions"
+        [title]="sortTitle()"
+        (optionSelected)="onSortSelect($event)">
+      </app-dropdown>
+    </div>
+  </section>
+</article>
