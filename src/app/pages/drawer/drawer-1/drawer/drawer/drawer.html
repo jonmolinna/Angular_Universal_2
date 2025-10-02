@@ -1,1 +1,107 @@
-<p>drawer works!</p>
+@if (isOpen()) {
+<div
+  class="fixed inset-0 z-40 bg-gray-900 transition-opacity duration-300 ease-in-out"
+  [class.bg-opacity-75]="isVisible()"
+  [class.bg-opacity-0]="!isVisible()"
+  (click)="onBackdropClick()"
+  aria-hidden="true"
+></div>
+
+<!-- DRAWER PANEL -->
+<div
+  class="fixed z-50 overflow-hidden transition-all duration-300 ease-in-out"
+  [ngClass]="drawerClasses()"
+  [class]="positionTransforms()"
+  role="dialog"
+  [attr.aria-modal]="true"
+  [attr.aria-labelledby]="title ? 'drawer-title' : null"
+>
+  <!-- DRAWER CONTENT -->
+  <div class="flex h-full flex-col bg-white shadow-xl">
+    <!-- HEADER -->
+    @if(!hideHeader) {
+    <div class="px-4 py-6 sm:px-6">
+      <div class="flex items-center justify-between">
+        <div class="flex-1">
+          @if (title) {
+          <h2 class="text-base font-semibold leading-6 text-gray-900" id="drawer-title">
+            {{ title }}
+          </h2>
+          } @if(subtitle) {
+          <p class="mt-1 text-sm text-gray-500">
+            {{ subtitle }}
+          </p>
+          }
+        </div>
+
+        @if (showCloseButton) {
+        <div class="ml-3 flex h-7 items-center">
+          <button
+            type="button"
+            (click)="close()"
+            class="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
+            aria-label="Cerrar drawer"
+          >
+            <span class="absolute -inset-2.5"></span>
+            <span class="sr-only">Cerrar panel</span>
+            <svg
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        }
+      </div>
+    </div>
+    }
+
+    <!-- LOADING STATE -->
+    @if (loading()) {
+    <div class="absolute inset-0 bg-white/75 flex items-center justify-center z-10">
+      <div class="flex items-center space-x-2">
+        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+        <span class="text-sm text-gray-600">Cargando...</span>
+      </div>
+    </div>
+    }
+
+    <!-- CONTENT -->
+    <div class="relative flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+      <ng-content></ng-content>
+    </div>
+
+    <!-- FOOTER -->
+    @if (!hideFooter) {
+    <div
+      class="flex flex-shrink-0 justify-end space-x-3 border-t border-gray-200 px-4 py-4 sm:px-6"
+    >
+      <ng-content select="[slot=footer]">
+        <!-- DEFAULT FOOTER -->
+        @if(showDefaultActions) {
+        <button
+          type="button"
+          class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 transition-colors duration-200"
+          (click)="cancel()"
+        >
+          {{ cancelText }}
+        </button>
+        <button
+          type="button"
+          class="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 transition-colors duration-200"
+          (click)="confirm()"
+        >
+          {{ confirmText }}
+        </button>
+        }
+      </ng-content>
+    </div>
+    }
+  </div>
+</div>
+}

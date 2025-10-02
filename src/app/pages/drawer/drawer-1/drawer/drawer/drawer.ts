@@ -1,14 +1,27 @@
-import { isPlatformBrowser } from '@angular/common';
-import { Component, computed, EventEmitter, inject, input, Input, Output, PLATFORM_ID, signal, Signal, WritableSignal } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import {
+  Component,
+  computed,
+  EventEmitter,
+  inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  PLATFORM_ID,
+  signal,
+  Signal,
+  WritableSignal,
+} from '@angular/core';
 import { DRAWER_POSITION, DRAWER_SIZE } from '../model/drawer.model';
 
 @Component({
   selector: 'app-drawer',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './drawer.html',
-  styleUrl: './drawer.css'
+  styleUrl: './drawer.css',
 })
-export class Drawer {
+export class Drawer implements OnInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private isBrowser = isPlatformBrowser(this.platformId);
 
@@ -22,7 +35,7 @@ export class Drawer {
   @Input() closeOnBackdrop: boolean = true;
   @Input() closeOnEscape: boolean = true;
   @Input() showCloseButton: boolean = true;
-  @Input() showDefaultActions: boolean = false;
+  @Input() showDefaultActions: boolean = true;
   @Input() preventBodyScroll: boolean = true;
 
   // Layout Inputs
@@ -58,7 +71,7 @@ export class Drawer {
     let clasess = '';
 
     // Position Classes
-    switch(position) {
+    switch (position) {
       case 'right':
         clasess += 'inset-y-0 right-0';
         break;
@@ -75,21 +88,144 @@ export class Drawer {
 
     // Size Classes
     if (position === 'left' || position === 'right') {
-      
+      const widthMap = {
+        sm: 'w-80', // 320px
+        md: 'w-96', // 384px
+        lg: 'w-120', // 480px (custom)
+        xl: 'w-144', // 576px (custom)
+        full: 'w-full',
+      };
+
+      clasess += ` ${widthMap[size as keyof typeof widthMap] || widthMap['md']}`;
+    } else {
+      const heightMap = {
+        sm: 'h-64', // 256px
+        md: 'h-80', // 320px
+        lg: 'h-96', // 384px
+        xl: 'h-120px', // 480px (custom)
+        full: 'h-full',
+      };
+
+      clasess += heightMap[size] || heightMap.md;
     }
 
-
     return clasess;
-  })
+  });
 
+  positionTransforms = computed(() => {
+    const position = this.position;
+    const isVisible = this.isVisible();
 
+    if (!isVisible) {
+      // Hidden state transforms
+      switch (position) {
+        case 'right':
+          return 'translate-x-full';
+        case 'left':
+          return '-translate-x-full';
+        case 'top':
+          return '-translate-y-full';
+        case 'bottom':
+          return 'translate-y-full';
+        default:
+          return 'translate-x-full';
+      }
+    }
 
+    // Visible State
+    return 'translate-x-0 translate-y-0';
+  });
 
+  // Public Methods
+  open(): void {
+    if (!this.isBrowser) return;
 
+    this.isOpen.set(true);
 
+    // Trigger animation after DOM update
+    setTimeout(() => {
+      this.isVisible.set(true);
+    }, 10);
 
+    this.opened.emit();
 
+    if (this.preventBodyScroll) {
+      this.disableBodyScroll();
+    }
+  }
 
+  close(): void {
+    if (!this.isBrowser) return;
 
+    // Start closing animation
+    this.isVisible.set(false)
 
+    // Wait for animation to complete before removing from DOM
+    this.animationTimeout = setTimeout(() => {
+      this.isOpen.set(false);
+      this.closed.emit();
+
+      if (this.preventBodyScroll) {
+        this.restoreBodyScroll();
+      }
+    }, 300) as any
+  }
+
+  confirm(): void {
+    this.confirmed.emit();
+    this.close();
+  }
+
+  cancel(): void {
+    this.cancelled.emit();
+    this.close();
+  }
+
+  // Event Handlers
+  onBackdropClick(): void {
+    if (this.closeOnBackdrop) {
+      this.backdropClicked.emit();
+      this.close();
+    }
+  }
+
+  private handleEscape(event: KeyboardEvent): void {
+    if (event.key === 'Escape' && this.isOpen() && this.closeOnEscape) {
+      this.close();
+    }
+  }
+
+  // Utility Methods
+  private disableBodyScroll(): void {
+    if (!this.isBrowser) return;
+
+    this.originalBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+  }
+
+  private restoreBodyScroll(): void {
+    if (!this.isBrowser) return;
+
+    document.body.style.overflow = this.originalBodyOverflow;
+  }
+
+  // Ciclo de Vida
+  ngOnInit(): void {
+    if (this.isBrowser && this.closeOnEscape) {
+      document.addEventListener('keydown', this.handleEscape.bind(this))
+    }
+  }
+
+  ngOnDestroy(): void {
+   if (this.isBrowser) {
+    document.removeEventListener('keydown', this.handleEscape.bind(this));
+    this.restoreBodyScroll();
+
+    if (this.animationTimeout) {
+      clearTimeout(this.animationTimeout);
+    }
+   } 
+  }
+
+  
 }
