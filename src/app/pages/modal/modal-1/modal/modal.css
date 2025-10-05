@@ -1,0 +1,62 @@
+/* modal.component.css */
+
+/* Animaciones personalizadas */
+.modal-backdrop {
+  backdrop-filter: blur(4px);
+}
+
+/* Scroll personalizado para contenido largo */
+.modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Animación de entrada más suave */
+.modal-enter {
+  animation: modalEnter 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Animación de salida */
+.modal-exit {
+  animation: modalExit 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalExit {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+}
+
+/* Focus ring personalizado */
+.modal-focus-ring:focus-visible {
+  outline: 2px solid theme('colors.blue.500');
+  outline-offset: 2px;
+}

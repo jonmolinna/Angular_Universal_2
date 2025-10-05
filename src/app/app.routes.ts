@@ -14,4 +14,8 @@ export const routes: Routes = [
     path: 'drawer',
     loadChildren: () => import('./pages/drawer/drawer.routes').then((m) => m.DRAWER_ROUTES),
   },
+  {
+    path: 'modal',
+    loadChildren: () => import('./pages/modal/modal.routes').then((m) => m.MODAL_ROUTES),
+  },
 ];

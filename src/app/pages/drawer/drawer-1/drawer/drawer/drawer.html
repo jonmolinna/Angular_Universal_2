@@ -1,6 +1,6 @@
 @if (isOpen()) {
 <div
-  class="fixed inset-0 z-40 bg-gray-900 transition-opacity duration-300 ease-in-out"
+  class="fixed inset-0 z-40 bg-gray-900/65 transition-opacity duration-300 ease-in-out"
   [class.bg-opacity-75]="isVisible()"
   [class.bg-opacity-0]="!isVisible()"
   (click)="onBackdropClick()"

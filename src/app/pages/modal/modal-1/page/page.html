@@ -1,0 +1,360 @@
+<article class="max-w-3xl mx-auto p-6 space-y-8">
+  <h1 class="text-4xl font-bold text-gray-900 mb-8">Modal System</h1>
+
+  <!-- Botones para diferentes tipos de modales -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+    <button
+      (click)="confirmModal.open()"
+      class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-200 hover:scale-105"
+    >
+      🗑️ Eliminar
+    </button>
+
+    <button
+      (click)="successModal.open()"
+      class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-200 hover:scale-105"
+    >
+      ✅ Éxito
+    </button>
+
+    <button
+      (click)="formModal.open()"
+      class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-200 hover:scale-105"
+    >
+      📝 Formulario
+    </button>
+
+    <button
+      (click)="customModal.open()"
+      class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-200 hover:scale-105"
+    >
+      🎨 Personalizado
+    </button>
+  </div>
+
+  <!-- ========== MODAL DE CONFIRMACIÓN ========== -->
+  <app-modal
+    #confirmModal
+    title="Confirmar eliminación"
+    subTitle="Esta acción no se puede deshacer"
+    modalType="error"
+    size="md"
+    confirmText="Eliminar"
+    cancelText="Cancelar"
+    [showCancel]="true"
+    (confirmed)="onConfirmDelete()"
+    (cancelled)="onCancelDelete()"
+  >
+    <div class="space-y-4">
+      <p class="text-sm text-gray-700">
+        ¿Estás seguro de que quieres eliminar este elemento? Esta acción eliminará permanentemente
+        todos los datos asociados.
+      </p>
+
+      <div class="bg-red-50 border border-red-200 rounded-md p-3">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm font-medium text-red-800">Esta acción es irreversible</p>
+            <p class="text-sm text-red-700 mt-1">
+              No podrás recuperar estos datos una vez eliminados.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-modal>
+
+  <!-- ========== MODAL DE ÉXITO ========== -->
+  <app-modal
+    #successModal
+    title="¡Operación exitosa!"
+    modalType="success"
+    size="sm"
+    confirmText="Continuar"
+    [showCancel]="false"
+    (confirmed)="onSuccess()"
+  >
+    <div class="text-center space-y-3">
+      <p class="text-sm text-gray-700">Los datos se han guardado correctamente en el sistema.</p>
+
+      <div class="bg-green-50 border border-green-200 rounded-md p-3">
+        <div class="flex justify-center">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm font-medium text-green-800">Cambios guardados exitosamente</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-modal>
+
+  <!-- ========== MODAL CON FORMULARIO ========== -->
+  <app-modal
+    #formModal
+    title="Crear nuevo usuario"
+    subtitle="Complete los datos del nuevo usuario"
+    modalType="info"
+    size="lg"
+    confirmText="Crear Usuario"
+    cancelText="Cancelar"
+    [showCancel]="true"
+    [loading]="isCreatingUser"
+    loadingText="Creando usuario..."
+    (confirmed)="onCreateUser()"
+    (cancelled)="onCancelForm()"
+  >
+    <form class="space-y-6">
+      <!-- Información Personal -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-medium text-gray-900 border-b pb-2">Información Personal</h3>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <label for="firstName" class="block text-sm font-medium text-gray-700">Nombre *</label>
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              required
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              placeholder="Juan"
+            />
+          </div>
+
+          <div>
+            <label for="lastName" class="block text-sm font-medium text-gray-700">Apellido *</label>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              required
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              placeholder="Pérez"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700">Email *</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            placeholder="juan@email.com"
+          />
+        </div>
+
+        <div>
+          <label for="phone" class="block text-sm font-medium text-gray-700">Teléfono</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            placeholder="+1 (555) 123-4567"
+          />
+        </div>
+      </div>
+
+      <!-- Configuración de Cuenta -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-medium text-gray-900 border-b pb-2">Configuración de Cuenta</h3>
+
+        <div>
+          <label for="role" class="block text-sm font-medium text-gray-700">Rol *</label>
+          <select
+            id="role"
+            name="role"
+            required
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+          >
+            <option value="">Seleccionar rol</option>
+            <option value="user">Usuario</option>
+            <option value="admin">Administrador</option>
+            <option value="moderator">Moderador</option>
+          </select>
+        </div>
+
+        <div class="space-y-3">
+          <div class="flex items-center">
+            <input
+              type="checkbox"
+              id="sendWelcome"
+              name="sendWelcome"
+              class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+            <label for="sendWelcome" class="ml-2 block text-sm text-gray-900">
+              Enviar email de bienvenida
+            </label>
+          </div>
+
+          <div class="flex items-center">
+            <input
+              type="checkbox"
+              id="activeImmediately"
+              name="activeImmediately"
+              class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+            <label for="activeImmediately" class="ml-2 block text-sm text-gray-900">
+              Activar cuenta inmediatamente
+            </label>
+          </div>
+        </div>
+      </div>
+    </form>
+  </app-modal>
+
+  <!-- ========== MODAL PERSONALIZADO ========== -->
+  <app-modal
+    #customModal
+    title="Modal Personalizado"
+    modalType="info"
+    size="xl"
+    [hideFooter]="true"
+    [blur]="true"
+  >
+    <div class="space-y-6">
+      <!-- Tabs -->
+      <div class="border-b border-gray-200">
+        <nav class="-mb-px flex space-x-8">
+          <button
+            (click)="activeTab = 'overview'"
+            [class.border-blue-500]="activeTab === 'overview'"
+            [class.text-blue-600]="activeTab === 'overview'"
+            [class.border-transparent]="activeTab !== 'overview'"
+            [class.text-gray-500]="activeTab !== 'overview'"
+            class="whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm hover:text-gray-700 hover:border-gray-300"
+          >
+            📊 Resumen
+          </button>
+          <button
+            (click)="activeTab = 'details'"
+            [class.border-blue-500]="activeTab === 'details'"
+            [class.text-blue-600]="activeTab === 'details'"
+            [class.border-transparent]="activeTab !== 'details'"
+            [class.text-gray-500]="activeTab !== 'details'"
+            class="whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm hover:text-gray-700 hover:border-gray-300"
+          >
+            📋 Detalles
+          </button>
+          <button
+            (click)="activeTab = 'settings'"
+            [class.border-blue-500]="activeTab === 'settings'"
+            [class.text-blue-600]="activeTab === 'settings'"
+            [class.border-transparent]="activeTab !== 'settings'"
+            [class.text-gray-500]="activeTab !== 'settings'"
+            class="whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm hover:text-gray-700 hover:border-gray-300"
+          >
+            ⚙️ Configuración
+          </button>
+        </nav>
+      </div>
+
+      <!-- Tab Content -->
+      <div class="min-h-[200px]">
+        <!-- Overview Tab -->
+        @if (activeTab === 'overview') {
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-blue-50 p-4 rounded-lg">
+            <h3 class="text-lg font-semibold text-blue-900">125</h3>
+            <p class="text-sm text-blue-700">Usuarios activos</p>
+          </div>
+          <div class="bg-green-50 p-4 rounded-lg">
+            <h3 class="text-lg font-semibold text-green-900">89%</h3>
+            <p class="text-sm text-green-700">Satisfacción</p>
+          </div>
+          <div class="bg-purple-50 p-4 rounded-lg">
+            <h3 class="text-lg font-semibold text-purple-900">234</h3>
+            <p class="text-sm text-purple-700">Proyectos</p>
+          </div>
+        </div>
+        }
+
+        <!-- Details Tab -->
+        @if (activeTab === 'details') {
+        <div class="space-y-4">
+          <h3 class="text-lg font-medium text-gray-900">Información detallada</h3>
+          <div class="prose max-w-none">
+            <p class="text-gray-700">
+              Este es un ejemplo de modal con contenido personalizado que incluye múltiples
+              pestañas, diferentes tipos de información y una interfaz rica e interactiva.
+            </p>
+            <ul class="list-disc list-inside space-y-1 text-gray-600">
+              <li>Soporte para múltiples pestañas</li>
+              <li>Contenido dinámico y responsive</li>
+              <li>Animaciones suaves CSS</li>
+              <li>Compatible con Angular Universal</li>
+              <li>Totalmente accesible</li>
+            </ul>
+          </div>
+        </div>
+        }
+
+        <!-- Settings Tab -->
+        @if (activeTab === 'settings') {
+        <div class="space-y-4">
+          <h3 class="text-lg font-medium text-gray-900">Configuraciones</h3>
+          <div class="space-y-3">
+            <label class="flex items-center">
+              <input
+                type="checkbox"
+                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              />
+              <span class="ml-2 text-sm text-gray-700">Habilitar notificaciones</span>
+            </label>
+            <label class="flex items-center">
+              <input
+                type="checkbox"
+                checked
+                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              />
+              <span class="ml-2 text-sm text-gray-700">Modo oscuro</span>
+            </label>
+            <label class="flex items-center">
+              <input
+                type="checkbox"
+                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              />
+              <span class="ml-2 text-sm text-gray-700">Actualizaciones automáticas</span>
+            </label>
+          </div>
+        </div>
+        }
+      </div>
+
+      <!-- Custom Footer -->
+      <div class="flex justify-end space-x-3 pt-4 border-t">
+        <button
+          (click)="customModal.close()"
+          class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+        >
+          Cerrar
+        </button>
+        <button
+          class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 transition-colors"
+        >
+          Guardar cambios
+        </button>
+      </div>
+    </div>
+  </app-modal>
+</article>
