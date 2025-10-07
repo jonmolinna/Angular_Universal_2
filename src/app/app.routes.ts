@@ -18,4 +18,9 @@ export const routes: Routes = [
     path: 'modal',
     loadChildren: () => import('./pages/modal/modal.routes').then((m) => m.MODAL_ROUTES),
   },
+  {
+    path: 'accordion',
+    loadChildren: () =>
+      import('./pages/accordion/accordion.routes').then((m) => m.ACCORDION_ROUTES),
+  },
 ];
