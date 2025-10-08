@@ -1,3 +1,228 @@
 <article class="max-w-3xl mx-auto p-6 space-y-8">
-    <app-accordion />
+  <h1 class="text-3xl font-bold text-gray-900">Accordion Examples</h1>
+
+    <!-- Controls -->
+  <div class="flex flex-wrap gap-4 mb-8">
+    <button 
+      (click)="basicAccordion.expandAll()"
+      class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+      Expandir Todo
+    </button>
+    <button 
+      (click)="basicAccordion.collapseAll()"
+      class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
+      Colapsar Todo
+    </button>
+  </div>
+
+  <!-- ========== ACCORDION BÁSICO ========== -->
+  <section class="space-y-4">
+    <h2 class="text-xl font-semibold text-gray-800">1. Accordion Básico</h2>
+
+    <app-accordion
+      #basicAccordion
+      [items]="basicItems"
+      mode="multiple"
+      variant="default"
+      [defaultExpanded]="['faq-1']"
+      (itemToggled)="onItemToggled($event)"
+      (expandedChanged)="onExpandedChanged($event)"
+    />
+  </section>
+
+  <!-- ========== ACCORDION CON BORDES ========== -->
+  <section class="space-y-4">
+    <h2 class="text-xl font-semibold text-gray-800">2. Accordion con Bordes</h2>
+    <app-accordion
+      [items]="featuresItems"
+      mode="single"
+      variant="bordered"
+      [allowCollapse]="false"
+    />
+  </section>
+
+  <!-- ========== ACCORDION SEPARADO ========== -->
+  <section class="space-y-4">
+    <h2 class="text-xl font-semibold text-gray-800">3. Accordion Separado</h2>
+    <app-accordion [items]="servicesItems" mode="multiple" variant="separated" />
+  </section>
+
+  <!-- ========== ACCORDION PERSONALIZADO ========== -->
+  <section class="space-y-4">
+    <h2 class="text-xl font-semibold text-gray-800">4. Accordion Personalizado</h2>
+
+    <app-accordion [items]="customItems" mode="multiple" variant="bordered">
+      <!-- Custom Header for pricing -->
+      <div slot="header-pricing" class="flex items-center justify-between w-full">
+        <div class="flex items-center space-x-3">
+          <span class="text-xl">💰</span>
+          <div>
+            <h3 class="font-semibold text-gray-900">Planes y Precios</h3>
+            <p class="text-xs text-gray-500">Encuentra el plan perfecto para ti</p>
+          </div>
+        </div>
+        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+          Popular
+        </span>
+      </div>
+
+      <!-- Custom Content for pricing -->
+      <div slot="content-pricing" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Basic Plan -->
+          <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div class="text-center">
+              <h3 class="text-lg font-semibold text-gray-900">Básico</h3>
+              <div class="mt-2">
+                <span class="text-3xl font-bold text-gray-900">$9</span>
+                <span class="text-gray-500">/mes</span>
+              </div>
+              <ul class="mt-4 space-y-2 text-sm text-gray-600">
+                <li>✅ 5 proyectos</li>
+                <li>✅ 10GB almacenamiento</li>
+                <li>✅ Soporte por email</li>
+              </ul>
+              <button
+                class="mt-4 w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition-colors"
+              >
+                Seleccionar
+              </button>
+            </div>
+          </div>
+
+          <!-- Pro Plan -->
+          <div
+            class="border-2 border-blue-500 rounded-lg p-4 relative hover:shadow-md transition-shadow"
+          >
+            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
+              <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-medium">
+                Recomendado
+              </span>
+            </div>
+            <div class="text-center">
+              <h3 class="text-lg font-semibold text-gray-900">Pro</h3>
+              <div class="mt-2">
+                <span class="text-3xl font-bold text-gray-900">$29</span>
+                <span class="text-gray-500">/mes</span>
+              </div>
+              <ul class="mt-4 space-y-2 text-sm text-gray-600">
+                <li>✅ 25 proyectos</li>
+                <li>✅ 100GB almacenamiento</li>
+                <li>✅ Soporte prioritario</li>
+                <li>✅ Analytics avanzado</li>
+              </ul>
+              <button
+                class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Seleccionar
+              </button>
+            </div>
+          </div>
+
+          <!-- Enterprise Plan -->
+          <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div class="text-center">
+              <h3 class="text-lg font-semibold text-gray-900">Enterprise</h3>
+              <div class="mt-2">
+                <span class="text-3xl font-bold text-gray-900">$99</span>
+                <span class="text-gray-500">/mes</span>
+              </div>
+              <ul class="mt-4 space-y-2 text-sm text-gray-600">
+                <li>✅ Proyectos ilimitados</li>
+                <li>✅ 1TB almacenamiento</li>
+                <li>✅ Soporte 24/7</li>
+                <li>✅ API personalizada</li>
+              </ul>
+              <button
+                class="mt-4 w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                Contactar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Custom Header for team -->
+      <div slot="header-team" class="flex items-center space-x-3">
+        <span class="text-xl">👥</span>
+        <div>
+          <h3 class="font-semibold text-gray-900">Nuestro Equipo</h3>
+          <p class="text-xs text-gray-500">Conoce a las personas detrás del proyecto</p>
+        </div>
+      </div>
+
+      !-- Custom Content for team -->
+      <div slot="content-team" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Team Member 1 -->
+          <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+            <div class="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center">
+              <span class="text-xl">👨‍💻</span>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-900">Juan Pérez</h3>
+              <p class="text-sm text-gray-600">CEO & Founder</p>
+              <p class="text-xs text-gray-500">10+ años de experiencia</p>
+            </div>
+          </div>
+
+          <!-- Team Member 2 -->
+          <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+            <div class="h-12 w-12 bg-green-100 rounded-full flex items-center justify-center">
+              <span class="text-xl">👩‍🎨</span>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-900">María García</h3>
+              <p class="text-sm text-gray-600">Lead Designer</p>
+              <p class="text-xs text-gray-500">Especialista en UX/UI</p>
+            </div>
+          </div>
+
+          <!-- Team Member 3 -->
+          <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+            <div class="h-12 w-12 bg-purple-100 rounded-full flex items-center justify-center">
+              <span class="text-xl">👨‍🔬</span>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-900">Carlos López</h3>
+              <p class="text-sm text-gray-600">Tech Lead</p>
+              <p class="text-xs text-gray-500">Full Stack Developer</p>
+            </div>
+          </div>
+
+          <!-- Team Member 4 -->
+          <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+            <div class="h-12 w-12 bg-red-100 rounded-full flex items-center justify-center">
+              <span class="text-xl">👩‍💼</span>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-900">Ana Martínez</h3>
+              <p class="text-sm text-gray-600">Product Manager</p>
+              <p class="text-xs text-gray-500">Estrategia y roadmap</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </app-accordion>
+  </section>
+
+   <!-- ========== ACCORDION ESTILO FILLED ========== -->
+   <section class="space-y-4">
+     <h2 class="text-xl font-semibold text-gray-800">5. Accordion Estilo Filled</h2>
+     <app-accordion 
+      [items]="settingsItems"
+      mode="single"
+      variant="filled">
+    </app-accordion>
+   </section>
+
+   <!-- Debug Info -->
+  <section class="mt-8 p-4 bg-gray-100 rounded-lg">
+    <h3 class="text-lg font-semibold text-gray-900 mb-2">Estado del Accordion</h3>
+    <p class="text-sm text-gray-600">Elementos expandidos: {{ expandedItems.join(', ') || 'Ninguno' }}</p>
+    <p class="text-sm text-gray-600">Último elemento toggled: {{ lastToggled }}</p>
+  </section>
+
+
 </article>

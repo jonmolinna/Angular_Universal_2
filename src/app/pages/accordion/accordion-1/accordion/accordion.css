@@ -1,0 +1,12 @@
+.accordion-content {
+  transition: max-height 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordion-header:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.accordion-item:not(:last-child) .accordion-content-inner {
+  border-bottom: 1px solid rgb(229, 231, 235);
+}

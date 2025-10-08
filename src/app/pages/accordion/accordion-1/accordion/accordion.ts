@@ -1,10 +1,11 @@
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
   Component,
   computed,
   EventEmitter,
   inject,
   Input,
+  OnInit,
   Output,
   PLATFORM_ID,
   signal,
@@ -14,11 +15,11 @@ import { AccordionItem, AccordionMode, AccordionVariant } from '../model/accordi
 
 @Component({
   selector: 'app-accordion',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './accordion.html',
   styleUrl: './accordion.css',
 })
-export class Accordion {
+export class Accordion implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private isBrowser = isPlatformBrowser(this.platformId);
 
@@ -72,7 +73,7 @@ export class Accordion {
 
     this.expandedItems.set(currentExpanded);
 
-    this.emitEvents(itemId, true)
+    this.emitEvents(itemId, true);
   }
 
   collapse(itemId: string): void {
@@ -88,7 +89,7 @@ export class Accordion {
   toggle(itemId: string): void {
     if (this.disabled) return;
 
-    const item = this.items.find(item => item.id === item.id);
+    const item = this.items.find((item) => item.id === item.id);
 
     if (!item || item.disabled) return;
 
@@ -99,8 +100,7 @@ export class Accordion {
       }
 
       this.collapse(itemId);
-    }
-    else {
+    } else {
       this.expand(itemId);
     }
   }
@@ -108,13 +108,79 @@ export class Accordion {
   expandAll(): void {
     if (this.disabled || this.mode === 'single') return;
 
-    const allIds = new Set(this.items.filter(item => !item.disabled).map(item => item.id));
+    const allIds = new Set(this.items.filter((item) => !item.disabled).map((item) => item.id));
     this.expandedItems.set(allIds);
-    this.expandedChanged.emit(Array.from(allIds))
+    this.expandedChanged.emit(Array.from(allIds));
+  }
+
+  collapseAll(): void {
+    if (this.disabled) return;
+
+    this.expandedItems.set(new Set());
+    this.expandedChanged.emit([]);
+  }
+
+  // Helper Methods
+  itemClasses(index: number): string {
+    const variantMap = {
+      default: '',
+      bordered:
+        index === 0
+          ? 'first:rounded-t-lg'
+          : index === this.items.length - 1
+          ? 'last:rounded-b-lg'
+          : '',
+      separated: 'bg-white border border-gray-200 rounded-lg shadow-sm',
+      filled:
+        index === 0
+          ? 'first:rounded-t-lg'
+          : index === this.items.length - 1
+          ? 'last:rounded-b-lg'
+          : '',
+    };
+
+    return variantMap[this.variant];
+  }
+
+  headerClasses(item: AccordionItem): string {
+    const baseClasses = 'w-full text-left';
+    const variantMap = {
+      default: 'hover:bg-gray-50',
+      bordered: 'hover:bg-gray-50',
+      separated: 'hover:bg-gray-50 rounded-lg',
+      filled: 'hover:bg-gray-100 first:rounded-t-lg last:rounded-b-lg',
+    };
+
+    let classes = baseClasses + ' ' + variantMap[this.variant];
+
+    if (this.isExpanded(item.id)) {
+      classes += ' bg-blue-50';
+    }
+
+    return classes;
+  }
+
+  contentClasses(): string {
+    const variantMap = {
+      default: 'pt-2',
+      bordered: 'pt-2',
+      separated: 'pt-2',
+      filled: 'pt-2 bg-white mx-3 mb-3 rounded-lg p-3',
+    };
+
+    return variantMap[this.variant];
   }
 
   private emitEvents(itemId: string, expanded: boolean): void {
     this.itemToggled.emit({ id: itemId, expanded });
     this.expandedChanged.emit(Array.from(this.expandedItems()));
+  }
+
+    ngOnInit() {
+    // Set default expanded items
+    if (this.defaultExpanded.length > 0) {
+      const expanded = new Set(this.defaultExpanded);
+      this.expandedItems.set(expanded);
+    }
   }
 }
