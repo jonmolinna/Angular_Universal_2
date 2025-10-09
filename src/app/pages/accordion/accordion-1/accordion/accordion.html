@@ -76,7 +76,7 @@
         <ng-content [select]="'[slot=content-' + item.id + ']'">
           <!-- Default Content -->
           @if (item.content) {
-          <div class="text-gray-700 text-sm leading-relaxed" [innerHTML]="item.content"></div>
+          <div class="text-gray-700 text-sm leading-relaxed" [innerHTML]="getSafeHtml(item.content || '')"></div>
           }
         </ng-content>
       </div>

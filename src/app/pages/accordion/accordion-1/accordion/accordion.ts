@@ -12,6 +12,7 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { AccordionItem, AccordionMode, AccordionVariant } from '../model/accordion.model';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-accordion',
@@ -22,6 +23,7 @@ import { AccordionItem, AccordionMode, AccordionVariant } from '../model/accordi
 export class Accordion implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private isBrowser = isPlatformBrowser(this.platformId);
+  private sanitizer = inject(DomSanitizer);
 
   // Configuration
   @Input() items: AccordionItem[] = [];
@@ -169,6 +171,10 @@ export class Accordion implements OnInit {
     };
 
     return variantMap[this.variant];
+  }
+
+  getSafeHtml(content: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(content);
   }
 
   private emitEvents(itemId: string, expanded: boolean): void {

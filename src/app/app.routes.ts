@@ -23,4 +23,8 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./pages/accordion/accordion.routes').then((m) => m.ACCORDION_ROUTES),
   },
+  {
+    path: 'toast',
+    loadChildren: () => import('./pages/toast/toast.routes').then((m) => m.TOAST_ROUTES),
+  }
 ];
