@@ -15,3 +15,5 @@ export interface TOAST_ACTION {
   action: () => void;
   style?: 'primary' | 'secondary';
 }
+
+export type TOAST_POSITION = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'top-center' | 'bottom-center';

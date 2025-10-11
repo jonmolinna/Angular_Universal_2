@@ -1,0 +1,13 @@
+<div class="fixed z-50 pointer-events-none p-4" [ngClass]="positionClasses()">
+  <div class="flex flex-col space-y-3" [ngClass]="containerDirection()">
+    @for (toast of toastService.toastList(); track toast.id) {
+    <app-toast
+      [toast]="toast"
+      [showProgress]="showProgress"
+      (closeToast)="onCloseToast($event)"
+      (actionClicked)="onActionClicked($event)"
+    >
+    </app-toast>
+    }
+  </div>
+</div>
