@@ -17,3 +17,4 @@ export interface TOAST_ACTION {
 }
 
 export type TOAST_POSITION = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'top-center' | 'bottom-center';
+export type TOAST_SIZE = 'compact' | 'normal' | 'large';
