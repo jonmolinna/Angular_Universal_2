@@ -1,0 +1,48 @@
+Componentes de datos y visualización:
+-------------------------------------------
+- Table/DataTable - Tablas con sorting, filtros, paginación
+- Card - Contenedores de contenido flexibles y reutilizables
+- Progress Bar/Circle - Indicadores de progreso lineales y circulares
+- Avatar - Fotos de perfil con fallbacks y estados
+- Badge/Chip - Etiquetas de estado, categorías, contadores
+
+Componentes de formularios avanzados:
+---------------------------------------------------
+- Input personalizado - Con validaciones, iconos, estados
+- Switch/Toggle - Interruptores animados y accesibles
+- File Upload - Drag & drop con preview y validaciones
+- Date Picker - Selector de fechas moderno
+- Search/Autocomplete - Búsqueda con sugerencias
+
+ Componentes de UI/UX:
+ --------------------------------------------
+- Tooltip - Información contextual elegante
+- Tabs - Navegación por pestañas responsiva
+- Carousel/Slider - Galerías de contenido
+- Stepper - Indicador de pasos en procesos
+- Loading/Skeleton - Estados de carga modernos
+
+Componentes de navegación:
+-----------------------------------------------------
+- Breadcrumb - Migas de pan responsive
+- Pagination - Paginación completa con saltos
+- Sidebar/Navigation - Menú de navegación lateral
+
+
+
+============================================
+Enfoque de diseño:
+------------------------------------------
+- Design System coherente
+- Variantes múltiples por componente
+- Theming personalizable
+- Dark mode ready
+- Mobile first responsive
+
+Entregables por componente:
+-------------------------------------------
+- Componente principal (.ts + .html + .css)
+- Interfaces/Types (models)
+- Servicio (si es necesario)
+- Página de demo con ejemplos
+- Documentación de uso

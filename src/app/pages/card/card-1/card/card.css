@@ -1,0 +1,19 @@
+.card-container {
+  position: relative;
+}
+
+.card-container:focus {
+  outline: 2px solid theme('colors.blue.500');
+  outline-offset: 2px;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.rounded-inherit {
+  border-radius: inherit;
+}

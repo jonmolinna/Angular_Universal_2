@@ -1,0 +1,148 @@
+<div
+  class="card-container transition-all duration-200 ease-in-out"
+  [ngClass]="containerClasses()"
+  [class.cursor-pointer]="clickable"
+  [class.transform]="hoverable"
+  [class.hover:scale-105]="hoverable && hoverEffect === 'scale'"
+  [class.hover:-translate-y-1]="hoverable && hoverEffect === 'lift'"
+  [class.hover:shadow-lg]="hoverable && hoverEffect === 'shadow'"
+  [attr.tabindex]="clickable ? 0 : null"
+  [attr.role]="clickable ? 'button' : null"
+  [attr.aria-label]="ariaLabel || null"
+  (click)="onCardClick()"
+  (keydown.enter)="onCardClick()"
+  (keydown.space)="onCardClick(); $event.preventDefault()"
+>
+  <!-- Loading Overlay -->
+  @if (loading()) {
+  <div class="absolute inset-0 bg-white/80 flex items-center justify-center z-10 rounded-inherit">
+    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+  </div>
+  }
+
+  <!-- Header Section -->
+  @if (hasHeader()) {
+  <div class="card-header" [ngClass]="headerClasses()">
+    <div class="flex items-start justify-between">
+      <!-- Left side: Avatar + Title + Subtitle -->
+      <div class="flex items-start space-x-3 flex-1 min-w-0">
+        <!-- Avatar slot -->
+        <ng-content select="[slot=avatar]"></ng-content>
+
+        <!-- Title area -->
+        <div class="flex-1 min-w-0">
+          <!-- Custom title content -->
+          <ng-content select="[slot=title]">
+            @if (title) {
+            <h3 class="card-title font-semibold text-gray-900 truncate" [ngClass]="titleClasses()">
+              {{ title }}
+            </h3>
+            }
+          </ng-content>
+
+          <!-- Custom subtitle content -->
+          <ng-content select="[slot=subtitle]">
+            @if (subtitle) {
+            <p
+              class="card-subtitle text-sm text-gray-500 mt-1 line-clamp-2"
+              [ngClass]="subtitleClasses()"
+            >
+              {{ subtitle }}
+            </p>
+            }
+          </ng-content>
+        </div>
+      </div>
+
+      <!-- Right side: Badge + Actions -->
+      <div class="flex items-start space-x-2 flex-shrink-0">
+        <!-- Badge -->
+        @if (badge) {
+        <span
+          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+          [ngClass]="badgeClasses()"
+        >
+          @if (badge.icon) {
+          <span class="mr-1">{{ badge.icon }}</span>
+          }
+          {{ badge.text }}
+        </span>
+        }
+
+        <!-- Header actions slot -->
+        <ng-content select="[slot=header-actions]"></ng-content>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- Image Section -->
+  @if (imageUrl || hasImageSlot()) {
+  <div class="card-image" [ngClass]="imageClasses()">
+    <ng-content select="[slot=image]">
+      @if (imageUrl) {
+      <img
+        [src]="imageUrl"
+        [alt]="imagenAlt || title || 'Card image'"
+        class="w-full h-full object-cover"
+        [class.rounded-t-lg]="!hasHeader() && radius !== 'none'"
+        loading="lazy"
+      />
+      }
+    </ng-content>
+  </div>
+  }
+
+  <!-- Content Section -->
+  @if (hasContent()) {
+  <div class="card-content" [ngClass]="contentClasses()">
+    <!-- Custom content -->
+    <ng-content>
+      @if (content) {
+      <div class="text-gray-700 text-sm leading-relaxed">
+        {{ content }}
+      </div>
+      }
+    </ng-content>
+  </div>
+  }
+
+  <!-- Footer Section -->
+  @if (hasFooter()) {
+  <div class="card-footer" [ngClass]="footerClasses()">
+    <div class="flex flex-wrap items-center justify-between">
+      <!-- Footer content -->
+      <div class="flex-1">
+        <ng-content select="[slot=footer]">
+          @if (footerText) {
+          <p class="text-sm text-gray-500">{{ footerText }}</p>
+          }
+        </ng-content>
+      </div>
+
+      <!-- Actions -->
+      @if (actions && actions.length > 0) {
+      <div class="flex space-x-2 ml-4">
+        @for (action of actions; track action.label) {
+        <button
+          type="button"
+          class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
+          [ngClass]="actionButtonClasses(action.variant || 'secondary')"
+          [disabled]="action.disabled || action.loading"
+          (click)="onActionClick(action, $event)"
+        >
+          @if (action.loading) {
+          <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
+          } @else if (action.icon) {
+          <span class="mr-2">{{ action.icon }}</span>
+          }
+
+          {{ action.label }}
+        </button>
+        }
+      </div>
+      }
+    </div>
+  </div>
+  }
+</div>

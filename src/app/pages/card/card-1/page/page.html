@@ -1,0 +1,250 @@
+<div class="max-w-6xl mx-auto p-6 space-y-8">
+  <h1 class="text-3xl font-bold text-gray-900">Card Component Examples</h1>
+
+  <!-- ========== CARDS BÁSICAS ========== -->
+  <section class="space-y-6">
+    <h2 class="text-2xl font-semibold text-gray-800">1. Cards Básicas</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Card Simple -->
+      <app-card
+        title="Card Simple"
+        content="Esta es una card básica con título y contenido. Perfecta para mostrar información de manera limpia y organizada."
+        variant="default"
+        size="md"
+      >
+      </app-card>
+
+      <!-- Card con Subtítulo -->
+      <app-card
+        title="Card con Subtítulo"
+        subtitle="Subtítulo descriptivo"
+        content="Esta card incluye un subtítulo que proporciona contexto adicional al título principal."
+        variant="outlined"
+        size="md"
+      >
+      </app-card>
+
+      <!-- Card con Badge -->
+      <app-card
+        title="Card con Badge"
+        content="Esta card incluye un badge que indica estado o categoría."
+        [badge]="{ text: 'Nuevo', variant: 'success', icon: '🎉' }"
+        variant="elevated"
+        size="md"
+      >
+      </app-card>
+    </div>
+  </section>
+
+  <!-- ========== CARDS CON IMÁGENES ========== -->
+  <section class="space-y-6">
+    <h2 class="text-2xl font-semibold text-gray-800">2. Cards con Imágenes</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Card con Imagen -->
+      <app-card
+        title="Beautiful Landscape"
+        subtitle="Fotografía de naturaleza"
+        imageUrl="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop"
+        imageAlt="Paisaje montañoso"
+        content="Una hermosa vista de montañas durante el atardecer."
+        [actions]="imageCardActions"
+        variant="default"
+        size="md"
+      >
+      </app-card>
+
+      <!-- Card de Producto -->
+      <app-card
+        title="MacBook Pro 16"
+        subtitle="Laptop profesional"
+        imageUrl="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=200&fit=crop"
+        content="La laptop más potente de Apple con chip M2 Pro y pantalla Liquid Retina XDR."
+        [badge]="{ text: '$2,499', variant: 'info' }"
+        [actions]="productCardActions"
+        variant="outlined"
+        size="md"
+      >
+      </app-card>
+
+      <!-- Card de Artículo -->
+      <app-card
+        title="10 Tips for Better Code"
+        subtitle="Desarrollo de Software"
+        imageUrl="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop"
+        content="Descubre las mejores prácticas para escribir código limpio y mantenible."
+        [badge]="{ text: '5 min read', variant: 'default' }"
+        footerText="Publicado hace 2 días"
+        [clickable]="true"
+        [hoverable]="true"
+        hoverEffect="lift"
+        (cardClick)="onArticleClick()"
+        variant="default"
+        size="md"
+      >
+      </app-card>
+    </div>
+  </section>
+
+  <!-- ========== CARDS INTERACTIVAS ========== -->
+  <section class="space-y-6">
+    <h2 class="text-2xl font-semibold text-gray-800">3. Cards Interactivas</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Card Clickeable -->
+      <app-card
+        title="Card Clickeable"
+        content="Esta card completa es clickeable. Haz click en cualquier parte para activar la acción."
+        [clickable]="true"
+        [hoverable]="true"
+        hoverEffect="scale"
+        ariaLabel="Abrir detalles del artículo"
+        (cardClick)="onCardClick('clickeable')"
+        variant="bordered"
+        size="md"
+      >
+      </app-card>
+
+      <!-- Card con Loading -->
+      <app-card
+        title="Card con Loading"
+        content="Esta card puede mostrar un estado de carga sobre el contenido."
+        [loading]="loading"
+        [actions]="loadingCardActions"
+        variant="elevated"
+        size="md"
+      >
+      </app-card>
+
+      <!-- Card con Múltiples Acciones -->
+      <app-card
+        title="Card con Acciones"
+        content="Esta card tiene múltiples botones de acción en el footer."
+        [actions]="multipleActions"
+        footerText="Última actualización: hoy"
+        variant="default"
+        size="md"
+      >
+      </app-card>
+    </div>
+  </section>
+
+  <!-- ========== CARDS PERSONALIZADAS ========== -->
+  <section class="space-y-6">
+    <h2 class="text-2xl font-semibold text-gray-800">4. Cards Personalizadas</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Card con Avatar -->
+      <app-card
+        title="Juan Pérez"
+        subtitle="Frontend Developer"
+        content="Desarrollador especializado en Angular y React con más de 5 años de experiencia."
+        [badge]="{ text: 'Disponible', variant: 'success' }"
+        footerText="📍 Madrid, España"
+        variant="outlined"
+        size="lg"
+      >
+        <!-- Avatar personalizado -->
+        <div
+          slot="avatar"
+          class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0"
+        >
+          <span class="text-xl">👨‍💻</span>
+        </div>
+
+        <!-- Acciones en header -->
+        <div slot="header-actions" class="flex space-x-2">
+          <button (click)="handleClickMe()" class="text-gray-400 hover:text-gray-600">
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"
+              />
+            </svg>
+          </button>
+        </div>
+      </app-card>
+
+      <!-- Card de Estadísticas -->
+      <app-card 
+      title="Juan Pérez"
+        subtitle="Frontend Developer"
+        content="Desarrollador especializado en Angular y React con más de 5 años de experiencia."
+      >
+        <!-- Título personalizado -->
+        <div slot="title" class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-gray-900">Estadísticas del Mes</h3>
+          <span class="text-2xl">📊</span>
+        </div>
+
+        <!-- Contenido personalizado -->
+        <div class="grid grid-cols-2 gap-4 mt-4">
+          <div class="text-center">
+            <div class="text-2xl font-bold text-blue-600">1,234</div>
+            <div class="text-sm text-gray-500">Usuarios</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl font-bold text-green-600">89%</div>
+            <div class="text-sm text-gray-500">Satisfacción</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl font-bold text-purple-600">456</div>
+            <div class="text-sm text-gray-500">Ventas</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl font-bold text-orange-600">$12K</div>
+            <div class="text-sm text-gray-500">Ingresos</div>
+          </div>
+        </div>
+      </app-card>
+    </div>
+  </section>
+
+  <!-- ========== VARIANTES Y TAMAÑOS ========== -->
+   <section class="space-y-6">
+    <h2 class="text-2xl font-semibold text-gray-800">5. Variantes y Tamaños</h2>
+
+     <!-- Variantes -->
+    <div class="space-y-4">
+      <h3 class="text-lg font-medium text-gray-700">Variantes</h3>
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <app-card title="Default" content="Variante por defecto" variant="default" size="sm"></app-card>
+        <app-card title="Outlined" content="Con borde destacado" variant="outlined" size="sm"></app-card>
+        <app-card title="Elevated" content="Con elevación" variant="elevated" size="sm"></app-card>
+        <app-card title="Flat" content="Diseño plano" variant="flat" size="sm"></app-card>
+        <app-card title="Bordered" content="Con borde de color" variant="bordered" size="sm"></app-card>
+      </div>
+    </div>
+
+     <!-- Tamaños -->
+    <div class="space-y-4">
+      <h3 class="text-lg font-medium text-gray-700">Tamaños</h3>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <app-card title="Small" content="Tamaño pequeño compacto" size="sm"></app-card>
+        <app-card title="Medium" content="Tamaño mediano estándar" size="md"></app-card>
+        <app-card title="Large" content="Tamaño grande con más espaciado" size="lg"></app-card>
+        <app-card title="Extra Large" content="Tamaño extra grande para contenido extenso" size="xl"></app-card>
+      </div>
+    </div>
+
+    <!-- Radius -->
+    <div class="space-y-4">
+      <h3 class="text-lg font-medium text-gray-700">Border Radius</h3>
+      <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
+        <app-card title="None" content="Sin radio" radius="none" size="sm"></app-card>
+        <app-card title="Small" content="Radio pequeño" radius="sm" size="sm"></app-card>
+        <app-card title="Medium" content="Radio mediano" radius="md" size="sm"></app-card>
+        <app-card title="Large" content="Radio grande" radius="lg" size="sm"></app-card>
+        <app-card title="XL" content="Radio extra grande" radius="xl" size="sm"></app-card>
+        <app-card title="Full" content="Radio completo" radius="full" size="sm"></app-card>
+      </div>
+    </div>
+
+
+    </section>
+
+
+
+
+
+</div>
