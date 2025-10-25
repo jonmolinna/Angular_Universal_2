@@ -27,4 +27,8 @@ export const routes: Routes = [
     path: 'card',
     loadChildren: () => import('./pages/card/card.routes').then((m) => m.CARD_ROUTES),
   },
+  {
+    path: 'alert',
+    loadChildren: () => import('./pages/alert/alert.routes').then((m) => m.ALERT_ROUTES),
+  },
 ];
