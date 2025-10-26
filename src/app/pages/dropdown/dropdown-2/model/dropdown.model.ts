@@ -6,4 +6,5 @@ export interface DROPDOWN_OPTION {
   icon?: SafeHtml;
   disabled?: boolean;
   separator?: boolean;
-}
+} 
+  
